@@ -29,7 +29,7 @@ interface TestData {
 const castDataRow = (
 	rawDataRow: NewYorkCovidTestingResponse,
 ): TestingDataRow => ({
-	date: parse(rawDataRow.test_date, "yyyy-MM-dd'T'HH:mm:ss:SSS", new Date()),
+	date: new Date(Date.parse(rawDataRow.test_date)),
 	county: rawDataRow.county,
 	positives: Number(rawDataRow.new_positives),
 	tests: Number(rawDataRow.total_number_of_tests),
@@ -39,12 +39,14 @@ const aggregateTestData = (
 	rawData: NewYorkCovidTestingResponse[],
 ): { [county: string]: TestData } => {
 	const data = rawData.map(castDataRow);
+	console.info(rawData[0].test_date);
+	console.info(data[0].date);
 	const endDate = maxBy(data, "date")!.date;
 	const startDate = subDays(endDate, 7);
 	const testData: { [county: string]: TestData } = {};
 
 	for (const { date, county, positives, tests } of data) {
-		if (date < startDate) {
+		if (date <= startDate) {
 			continue;
 		}
 		if (!(county in testData)) {
@@ -52,6 +54,9 @@ const aggregateTestData = (
 		}
 		testData[county].positivesLast7Days += positives;
 		testData[county].testsLast7Days += tests;
+		if (county === "Westchester") {
+			console.info({ date, positives, tests });
+		}
 	}
 
 	return testData;

@@ -1,3 +1,4 @@
+import { Advice } from "./Advice";
 import { Populations } from "./usePopulations";
 import { useTestData } from "./useTestData";
 
@@ -17,7 +18,9 @@ export const Results = ({ currentCounty, populations }: ResultsProps) => {
 	const population = populations[currentCounty];
 
 	const positiveRate = positivesLast7Days / testsLast7Days;
-	const casesPer100K = Math.round(positivesLast7Days / (population / 100000));
+	const casesPer100K = positivesLast7Days / (population / 100000);
+
+	console.log({ positivesLast7Days, population });
 
 	return (
 		<div>
@@ -28,7 +31,11 @@ export const Results = ({ currentCounty, populations }: ResultsProps) => {
 					maximumFractionDigits: 1,
 				})}
 			</p>
-			<p>Cases per 100K: {casesPer100K}</p>
+			<p>
+				Cases per 100K:{" "}
+				{casesPer100K.toLocaleString("en-US", { maximumFractionDigits: 0 })}
+			</p>
+			<Advice testPositivityRate={positiveRate} casesPer100K={casesPer100K} />
 		</div>
 	);
 };
