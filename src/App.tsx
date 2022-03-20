@@ -1,17 +1,8 @@
 import "./App.css";
 import { ChakraProvider, Select } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import groupBy from 'lodash.groupby';
-import { useMemo } from "react";
-
-type NewYorkCovidTestingResponse = {
-	test_date: string;
-	county: string;
-	new_positives: string;
-	cumulative_number_of_positives: string;
-	total_number_of_tests: string;
-	cumulative_number_of_tests: string;
-};
+import { useTestData } from "./useTestData";
+import { useState } from "react";
 
 const queryClient = new QueryClient();
 
@@ -23,40 +14,56 @@ const App = () => {
 			</ChakraProvider>
 		</QueryClientProvider>
 	);
-}
+};
 
 const App2 = () => {
-	const { data, isLoading, error } = useQuery(
-		"NewYorkCovidTesting",
-		async (): Promise<NewYorkCovidTestingResponse[]> => {
-			const response = await fetch(
-				"https://health.data.ny.gov/resource/xdss-u53e.json",
-				{
-					method: "GET",
-					headers: {
-						"X-App-Token": "xGzkzivvgpxWhiBxi55htQH7B",
-					},
-				},
-			);
-			return response.json();
-		},
+	const { data, isLoading, error } = useTestData();
+	const {
+		data: populations,
+		isLoading: populationsIsLoading,
+		error: populationsError,
+	} = useQuery<{ [county: string]: number }>(
+		"NYPopulations",
+		async () => (await import("./ny-population.json")).default,
 	);
 
-	const dataByCounty = useMemo(() => 
-		groupBy(data, 'county')
-	, [data])
+	const [currentCounty, setCurrentCounty] = useState<string>();
 
-	if (isLoading) return <div>Loading…</div>;
+	if (isLoading || populationsIsLoading) return <div>Loading…</div>;
 	if (error) return <div>Error! {(error as Error).toString()}</div>;
+	if (populationsError) return <div>Error! {(error as Error).toString()}</div>;
 
 	return (
-		<Select placeholder="Choose your county">
-			{Object.keys(dataByCounty!).sort().map((county) => (
-				<option key={county} value={county}>
-					{county}
-				</option>
-			))}
-		</Select>
+		<>
+			<Select
+				placeholder="Choose your county"
+				onChange={(e) => setCurrentCounty(e.target.value)}
+			>
+				{Object.keys(populations!)
+					.sort()
+					.map((county) => (
+						<option key={county} value={county}>
+							{county}
+						</option>
+					))}
+			</Select>
+			{currentCounty != null && data != null && populations != null && (
+				<div>
+					<p>
+						Test positive rate:{" "}
+						{data[currentCounty].positivesLast7Days /
+							data[currentCounty].testsLast7Days}
+					</p>
+					<p>
+						Cases per 100K:{" "}
+						{Math.round(
+							data[currentCounty].positivesLast7Days /
+								(populations[currentCounty] / 100000),
+						)}
+					</p>
+				</div>
+			)}
+		</>
 	);
 };
 
