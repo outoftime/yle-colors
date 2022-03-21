@@ -1,7 +1,5 @@
-import { parse, subDays } from "date-fns";
-import groupBy from "lodash.groupby";
+import { subDays } from "date-fns";
 import maxBy from "lodash.maxby";
-import { nextTick } from "process";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
 
@@ -35,12 +33,9 @@ const castDataRow = (
 	tests: Number(rawDataRow.total_number_of_tests),
 });
 
-const aggregateTestData = (
-	rawData: NewYorkCovidTestingResponse[],
-): { [county: string]: TestData } => {
+const aggregateTestData = (rawData: NewYorkCovidTestingResponse[]) => {
 	const data = rawData.map(castDataRow);
-	console.info(rawData[0].test_date);
-	console.info(data[0].date);
+
 	const endDate = maxBy(data, "date")!.date;
 	const startDate = subDays(endDate, 7);
 	const testData: { [county: string]: TestData } = {};
@@ -54,12 +49,9 @@ const aggregateTestData = (
 		}
 		testData[county].positivesLast7Days += positives;
 		testData[county].testsLast7Days += tests;
-		if (county === "Westchester") {
-			console.info({ date, positives, tests });
-		}
 	}
 
-	return testData;
+	return { data: testData, endDate };
 };
 
 export const useTestData = () => {
@@ -79,10 +71,10 @@ export const useTestData = () => {
 		},
 	);
 
-	const dataByCounty = useMemo(
+	const aggregateData = useMemo(
 		() => (data == null ? null : aggregateTestData(data)),
 		[data],
 	);
 
-	return { data: dataByCounty, isLoading, error };
+	return { data: aggregateData, isLoading, error };
 };

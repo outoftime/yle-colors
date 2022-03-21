@@ -14,16 +14,24 @@ export const Results = ({ currentCounty, populations }: ResultsProps) => {
 		return null;
 	}
 
-	const { positivesLast7Days, testsLast7Days } = testData[currentCounty];
+	const { data, endDate } = testData;
+	const { positivesLast7Days, testsLast7Days } = data[currentCounty];
+
 	const population = populations[currentCounty];
 
 	const positiveRate = positivesLast7Days / testsLast7Days;
 	const casesPer100K = positivesLast7Days / (population / 100000);
 
-	console.log({ positivesLast7Days, population });
-
 	return (
 		<div>
+			<p>
+				Data as of{" "}
+				{endDate.toLocaleDateString("en-US", {
+					weekday: "long",
+					month: "long",
+					day: "numeric",
+				})}
+			</p>
 			<p>
 				Test positive rate:{" "}
 				{positiveRate.toLocaleString("en-US", {
