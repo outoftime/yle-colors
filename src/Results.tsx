@@ -1,49 +1,57 @@
+import { Badge, Box, Heading, Text } from "@chakra-ui/react";
+import { useMemo } from "react";
 import { Advice } from "./Advice";
+import { getColor } from "./getColor";
 import { Populations } from "./usePopulations";
-import { useTestData } from "./useTestData";
+import { TestData } from "./useTestData";
 
 export interface ResultsProps {
-	currentCounty: string;
+	county: string;
 	populations: Populations;
+	testData: TestData;
 }
 
-export const Results = ({ currentCounty, populations }: ResultsProps) => {
-	const { data: testData } = useTestData();
+export const Results = ({ county, populations, testData }: ResultsProps) => {
+	const { positivesLast7Days, testsLast7Days, endDate } = testData;
 
-	if (testData == null) {
-		return null;
-	}
-
-	const { data, endDate } = testData;
-	const { positivesLast7Days, testsLast7Days } = data[currentCounty];
-
-	const population = populations[currentCounty];
+	const population = populations[county];
 
 	const positiveRate = positivesLast7Days / testsLast7Days;
 	const casesPer100K = positivesLast7Days / (population / 100000);
 
+	const color = useMemo(
+		() => getColor(positiveRate, casesPer100K),
+		[positiveRate, casesPer100K],
+	);
+
 	return (
-		<div>
-			<p>
+		<Box>
+			<Heading size="xl">
+				{county}
+				<Badge ml="0.5em" fontSize="xl" variant="solid" colorScheme={color}>
+					{color}
+				</Badge>
+			</Heading>
+			<Text fontStyle="italic">
 				Data as of{" "}
 				{endDate.toLocaleDateString("en-US", {
 					weekday: "long",
 					month: "long",
 					day: "numeric",
 				})}
-			</p>
-			<p>
+			</Text>
+			<Text>
 				Test positive rate:{" "}
 				{positiveRate.toLocaleString("en-US", {
 					style: "percent",
 					maximumFractionDigits: 1,
 				})}
-			</p>
-			<p>
+			</Text>
+			<Text>
 				Cases per 100K:{" "}
 				{casesPer100K.toLocaleString("en-US", { maximumFractionDigits: 0 })}
-			</p>
-			<Advice testPositivityRate={positiveRate} casesPer100K={casesPer100K} />
-		</div>
+			</Text>
+			<Advice color={color} />
+		</Box>
 	);
 };

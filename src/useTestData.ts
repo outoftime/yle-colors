@@ -12,17 +12,18 @@ interface NewYorkCovidTestingResponse {
 	cumulative_number_of_tests: string;
 }
 
-interface TestingDataRow {
+type TestingDataRow = {
 	date: Date;
 	county: string;
 	positives: number;
 	tests: number;
-}
+};
 
-interface TestData {
+export type TestData = {
 	positivesLast7Days: number;
 	testsLast7Days: number;
-}
+	endDate: Date;
+};
 
 const castDataRow = (
 	rawDataRow: NewYorkCovidTestingResponse,
@@ -45,13 +46,13 @@ const aggregateTestData = (rawData: NewYorkCovidTestingResponse[]) => {
 			continue;
 		}
 		if (!(county in testData)) {
-			testData[county] = { positivesLast7Days: 0, testsLast7Days: 0 };
+			testData[county] = { endDate, positivesLast7Days: 0, testsLast7Days: 0 };
 		}
 		testData[county].positivesLast7Days += positives;
 		testData[county].testsLast7Days += tests;
 	}
 
-	return { data: testData, endDate };
+	return testData;
 };
 
 export const useTestData = () => {

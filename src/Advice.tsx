@@ -1,5 +1,6 @@
-import { useMemo } from "react";
-import { Color, getColor } from "./getColor";
+import { CheckCircleIcon, InfoIcon, WarningIcon } from "@chakra-ui/icons";
+import { List, ListIcon, ListItem } from "@chakra-ui/react";
+import { Color } from "./getColor";
 
 const adviceByColor: Record<
 	Color,
@@ -60,16 +61,21 @@ const adviceByColor: Record<
 };
 
 export interface AdviceProps {
-	testPositivityRate: number;
-	casesPer100K: number;
+	color: Color;
 }
 
-export const Advice = ({ testPositivityRate, casesPer100K }: AdviceProps) => {
-	const color = useMemo(
-		() => getColor(testPositivityRate, casesPer100K),
-		[testPositivityRate, casesPer100K],
-	);
+const WarningListIcon = () => <ListIcon as={WarningIcon} color="red.500" />;
 
+const InfoListIcon = () => <ListIcon as={InfoIcon} color="blue.500" />;
+
+const BooleanListIcon = ({ isWarning }: { isWarning: boolean }) => {
+	if (isWarning) {
+		return <WarningListIcon />;
+	}
+	return <ListIcon as={CheckCircleIcon} color="green.500" />;
+};
+
+export const Advice = ({ color }: AdviceProps) => {
 	const {
 		maskIndoors,
 		symptomaticAntigenTesting,
@@ -82,29 +88,46 @@ export const Advice = ({ testPositivityRate, casesPer100K }: AdviceProps) => {
 	} = adviceByColor[color];
 
 	return (
-		<>
-			<h2>YLE color code: {color}</h2>
-			<ul>
-				<li>{maskIndoors ? "Mask indoors." : "No need to mask indoors."}</li>
-				<li>Symptomatic antigen testing: {symptomaticAntigenTesting}</li>
-				<li>If exposed: {exposure}</li>
-				{crowdedIndoorSpaces != null && (
-					<li>
-						Avoid indoor, crowded public areas where not {crowdedIndoorSpaces}%
-						masked and vaccination status unknown.
-					</li>
-				)}
-				<li>{flying ? "Flying OK." : "Avoid flying, if possible."}</li>
-				{vulnerable != null && (
-					<li>Be {vulnerable} around vulnerable, like grandparents.</li>
-				)}
-				<li>{indoorDining ? "Indoor dining OK" : "Avoid indoor dining"}</li>
-				{!indoorExercise && (
-					<li>
-						Avoid indoor high-exertion public activities, like trampoline parks
-					</li>
-				)}
-			</ul>
-		</>
+		<List>
+			<ListItem>
+				<BooleanListIcon isWarning={maskIndoors} />
+				{maskIndoors ? "Mask indoors." : "No need to mask indoors."}
+			</ListItem>
+			<ListItem>
+				<InfoListIcon />
+				Symptomatic antigen testing: {symptomaticAntigenTesting}
+			</ListItem>
+			<ListItem>
+				<InfoListIcon />
+				If exposed: {exposure}
+			</ListItem>
+			{crowdedIndoorSpaces != null && (
+				<ListItem>
+					<WarningListIcon />
+					Avoid indoor, crowded public areas where not {crowdedIndoorSpaces}%
+					masked and vaccination status unknown.
+				</ListItem>
+			)}
+			<ListItem>
+				<BooleanListIcon isWarning={!flying} />
+				{flying ? "Flying OK." : "Avoid flying, if possible."}
+			</ListItem>
+			{vulnerable != null && (
+				<ListItem>
+					<WarningListIcon />
+					Be {vulnerable} around vulnerable, like grandparents.
+				</ListItem>
+			)}
+			<ListItem>
+				<BooleanListIcon isWarning={!indoorDining} />
+				{indoorDining ? "Indoor dining OK" : "Avoid indoor dining"}
+			</ListItem>
+			{!indoorExercise && (
+				<ListItem>
+					<WarningListIcon />
+					Avoid indoor high-exertion public activities, like trampoline parks
+				</ListItem>
+			)}
+		</List>
 	);
 };

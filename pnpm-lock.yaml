@@ -3,7 +3,9 @@ lockfileVersion: 5.3
 specifiers:
   '@babel/core': '>=7.0.0-0 <8.0.0'
   '@babel/plugin-transform-react-jsx': ^7.14.9
+  '@chakra-ui/icons': ^1.1.7
   '@chakra-ui/react': ^1.8.6
+  '@chakra-ui/system': ^1.11.2
   '@emotion/react': ^11
   '@emotion/styled': ^11
   '@testing-library/dom': ^8.11.3
@@ -31,7 +33,9 @@ specifiers:
   web-vitals: ^2.1.4
 
 dependencies:
+  '@chakra-ui/icons': 1.1.7_cf1afb73b983ccab5207fbc7b13f7809
   '@chakra-ui/react': 1.8.6_b5697210a848410573c38bcd7b4427f0
+  '@chakra-ui/system': 1.11.2_dc240608ee0d50d8faddd7dd724375c2
   '@emotion/react': 11.8.2_47ea947e2a228aa5b9e98bcc4bbde992
   '@emotion/styled': 11.8.1_014d3fd47caecfb5ae8372631ae4f839
   date-fns: 2.28.0
@@ -1657,6 +1661,18 @@ packages:
       react: 17.0.2
     dev: false
 
+  /@chakra-ui/icons/1.1.7_cf1afb73b983ccab5207fbc7b13f7809:
+    resolution: {integrity: sha512-YIHxey/B4M2PyFASlHXtAWFyW+tsAtGAChOJ8dsM2kpu1MbVUqm/6nMI1KIFd7Te5IWuNYA75rAHBdLI0Yu61A==}
+    peerDependencies:
+      '@chakra-ui/system': '>=1.0.0'
+      react: '>=16.8.6'
+    dependencies:
+      '@chakra-ui/icon': 2.0.5_cf1afb73b983ccab5207fbc7b13f7809
+      '@chakra-ui/system': 1.11.2_dc240608ee0d50d8faddd7dd724375c2
+      '@types/react': 17.0.40
+      react: 17.0.2
+    dev: false
+
   /@chakra-ui/image/1.1.8_cf1afb73b983ccab5207fbc7b13f7809:
     resolution: {integrity: sha512-ffO5lyTfGXxaFr9Bdkrb+GahjXsqeph8R1jXYFYwLjos+/sZZJmHJz/cjyoKjKPd6J7puKVZ6Cxz+Ej6PJlQcA==}
     peerDependencies:
@@ -3234,7 +3250,6 @@ packages:
 
   /@types/prop-types/15.7.4:
     resolution: {integrity: sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==}
-    dev: true
 
   /@types/q/1.5.5:
     resolution: {integrity: sha512-L28j2FcJfSZOnL1WBjDYp2vUHCeIFlyYI/53EwD/rKUBQ7MtUUfbQWiyKJGpcnv4/WgrhWsFKrcPstcAt/J0tQ==}
@@ -3260,7 +3275,6 @@ packages:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
       csstype: 3.0.11
-    dev: true
 
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
@@ -3274,7 +3288,6 @@ packages:
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
-    dev: true
 
   /@types/serve-index/1.9.1:
     resolution: {integrity: sha512-d/Hs3nWDxNL2xAczmOVZNj92YZCS6RGxfBPjKzuu/XirCgXdpKEb88dYNbrYGint6IVWLNP+yonwVAuRC0T2Dg==}
