@@ -1,15 +1,10 @@
+import { Center, Flex, Wrap, WrapItem } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import { useQuery } from "react-query";
+import Link from "next/link";
+import { useStates } from "../hooks/api-data";
 
 const Home: NextPage = () => {
-	const {
-		data: states,
-		isLoading,
-		isError,
-		error,
-	} = useQuery<string[]>(["states"], async () =>
-		(await fetch("https://yle-colors-data.herokuapp.com/states")).json(),
-	);
+	const { states, isLoading, isError, error } = useStates();
 	if (isLoading) {
 		return <div>Loading…</div>;
 	}
@@ -17,12 +12,26 @@ const Home: NextPage = () => {
 		console.error(error);
 		return <div>Error!</div>;
 	}
+
 	return (
-		<ul>
+		<Wrap justify="center">
 			{states!.map((state) => (
-				<li key="state">{state}</li>
+				<WrapItem key="state">
+					<Link href={`/${state}`} passHref>
+						<Center
+							fontSize="xl"
+							fontWeight="medium"
+							w="18em"
+							h="4em"
+							bg="gray.200"
+							as="a"
+						>
+							{state}
+						</Center>
+					</Link>
+				</WrapItem>
 			))}
-		</ul>
+		</Wrap>
 	);
 };
 
