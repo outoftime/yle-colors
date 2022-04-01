@@ -1,7 +1,7 @@
 import { Badge, Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { Advice } from "./Advice";
-import { getColor } from "./getColor";
+import { getColor } from "../lib/getColor";
 
 export type DataPoint = {
 	value: number;

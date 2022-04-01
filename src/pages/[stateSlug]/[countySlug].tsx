@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCaseRate } from "../../hooks/api-data";
-import { DataPoint, Results } from "../../Results";
+import { DataPoint, Results } from "../../components/Results";
 
 const County: NextPage = () => {
 	const router = useRouter();

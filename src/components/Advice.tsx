@@ -1,6 +1,6 @@
 import { CheckCircleIcon, InfoIcon, WarningIcon } from "@chakra-ui/icons";
 import { List, ListIcon, ListItem } from "@chakra-ui/react";
-import { Color } from "./getColor";
+import { Color } from "../lib/getColor";
 
 const adviceByColor: Record<
 	Color,
