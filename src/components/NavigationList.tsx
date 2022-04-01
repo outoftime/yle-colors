@@ -13,14 +13,7 @@ export const NavigationList = ({ items }: NavigationListProps) => (
 		{items!.map(({ label, path }) => (
 			<WrapItem key="state">
 				<Link href={path} passHref>
-					<Center
-						fontSize="xl"
-						fontWeight="medium"
-						w="18em"
-						h="4em"
-						bg="gray.200"
-						as="a"
-					>
+					<Center fontSize="xl" fontWeight="medium" w="10em" h="3em" as="a">
 						{label}
 					</Center>
 				</Link>
