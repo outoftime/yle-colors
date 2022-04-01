@@ -2,8 +2,6 @@ import { Badge, Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { Advice } from "./Advice";
 import { getColor } from "./getColor";
-import type { Populations } from "./usePopulations";
-import type { TestData } from "./useTestData";
 
 export type DataPoint = {
 	value: number;
@@ -38,7 +36,7 @@ export const Results = ({
 	return (
 		<Box>
 			<Heading size="xl">
-				{county}
+				{county}, {state}
 				<Badge ml="0.5em" fontSize="xl" variant="solid" colorScheme={color}>
 					{color}
 				</Badge>
