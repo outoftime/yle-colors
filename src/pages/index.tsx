@@ -3,7 +3,7 @@ import { NavigationList } from "../components/NavigationList";
 import { useStates } from "../hooks/api-data";
 
 const Home: NextPage = () => {
-	const { states, isLoading, isError, error } = useStates();
+	const { states: states, isLoading, isError, error } = useStates();
 	if (isLoading) {
 		return <div>Loading…</div>;
 	}

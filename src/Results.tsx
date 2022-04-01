@@ -1,27 +1,38 @@
-import { Badge, Box, Heading, Text } from "@chakra-ui/react";
+import { Badge, Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { Advice } from "./Advice";
 import { getColor } from "./getColor";
-import { Populations } from "./usePopulations";
-import { TestData } from "./useTestData";
+import type { Populations } from "./usePopulations";
+import type { TestData } from "./useTestData";
+
+export type DataPoint = {
+	value: number;
+	date: Date;
+};
 
 export interface ResultsProps {
+	state: string;
 	county: string;
-	populations: Populations;
-	testData: TestData;
+	casesPer100K: DataPoint;
+	testPositivityRate?: DataPoint;
 }
 
-export const Results = ({ county, populations, testData }: ResultsProps) => {
-	const { positivesLast7Days, testsLast7Days, endDate } = testData;
+const formatDate = (date: Date) =>
+	date.toLocaleDateString("en-US", {
+		weekday: "long",
+		month: "long",
+		day: "numeric",
+	});
 
-	const population = populations[county];
-
-	const positiveRate = positivesLast7Days / testsLast7Days;
-	const casesPer100K = positivesLast7Days / (population / 100000);
-
+export const Results = ({
+	state,
+	county,
+	casesPer100K,
+	testPositivityRate,
+}: ResultsProps) => {
 	const color = useMemo(
-		() => getColor(positiveRate, casesPer100K),
-		[positiveRate, casesPer100K],
+		() => getColor(casesPer100K.value, testPositivityRate?.value),
+		[testPositivityRate, casesPer100K],
 	);
 
 	return (
@@ -32,25 +43,29 @@ export const Results = ({ county, populations, testData }: ResultsProps) => {
 					{color}
 				</Badge>
 			</Heading>
-			<Text fontStyle="italic">
-				Data as of{" "}
-				{endDate.toLocaleDateString("en-US", {
-					weekday: "long",
-					month: "long",
-					day: "numeric",
-				})}
-			</Text>
-			<Text>
-				Test positive rate:{" "}
-				{positiveRate.toLocaleString("en-US", {
-					style: "percent",
-					maximumFractionDigits: 1,
-				})}
-			</Text>
-			<Text>
-				Cases per 100K:{" "}
-				{casesPer100K.toLocaleString("en-US", { maximumFractionDigits: 0 })}
-			</Text>
+			<Flex>
+				<Box>
+					<Text>Cases per 100K</Text>
+					<Text>
+						{casesPer100K.value.toLocaleString("en-US", {
+							maximumFractionDigits: 0,
+						})}
+					</Text>
+					<Text>{formatDate(casesPer100K.date)}</Text>
+				</Box>
+				{testPositivityRate != null && (
+					<Box>
+						<Text>Test positive rate</Text>
+						<Text>
+							{testPositivityRate.value.toLocaleString("en-US", {
+								style: "percent",
+								maximumFractionDigits: 1,
+							})}
+						</Text>
+						<Text>{formatDate(testPositivityRate.date)}</Text>
+					</Box>
+				)}
+			</Flex>
 			<Advice color={color} />
 		</Box>
 	);

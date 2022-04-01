@@ -7,10 +7,7 @@ const State: NextPage = () => {
 	const router = useRouter();
 	const { stateSlug } = router.query;
 
-	if (typeof stateSlug !== "string") {
-		throw new Error("Unexpected query format");
-	}
-	const state = stateSlug.replace("-", " ");
+	const state = `${stateSlug}`.replace("-", " ");
 
 	const { counties, isLoading, isError, error } = useCounties(state);
 
