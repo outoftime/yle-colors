@@ -37,7 +37,7 @@ export const useCaseRate = (state: string, county: string) => {
 		isLoading,
 		isError,
 		error,
-	} = useQuery<CaseRateResult>(["caseRate", state], async () =>
+	} = useQuery<CaseRateResult>(["caseRate", state, county], async () =>
 		(
 			await fetch(
 				`${API_ROOT}/states/${state}/counties/${county}/7_day_cases_per_100k`,

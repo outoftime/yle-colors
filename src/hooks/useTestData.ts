@@ -55,7 +55,7 @@ const aggregateTestData = (rawData: NewYorkCovidTestingResponse[]) => {
 	return testData;
 };
 
-export const useTestData = () => {
+export const useTestData = ({ enabled }: { enabled: boolean }) => {
 	const { data, isLoading, error } = useQuery(
 		"NewYorkCovidTesting",
 		async (): Promise<NewYorkCovidTestingResponse[]> => {
@@ -70,6 +70,7 @@ export const useTestData = () => {
 			);
 			return response.json();
 		},
+		{ enabled },
 	);
 
 	const aggregateData = useMemo(

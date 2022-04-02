@@ -1,4 +1,14 @@
-import { Badge, Box, Flex, Heading, Text } from "@chakra-ui/react";
+import {
+	Badge,
+	Box,
+	Flex,
+	Heading,
+	Stat,
+	StatHelpText,
+	StatLabel,
+	StatNumber,
+	Text,
+} from "@chakra-ui/react";
 import { useMemo } from "react";
 import { Advice } from "./Advice";
 import { getColor } from "../lib/getColor";
@@ -35,33 +45,33 @@ export const Results = ({
 
 	return (
 		<Box>
-			<Heading size="xl">
+			<Heading size="xl" textAlign="center">
 				{county}, {state}
 				<Badge ml="0.5em" fontSize="xl" variant="solid" colorScheme={color}>
 					{color}
 				</Badge>
 			</Heading>
-			<Flex>
-				<Box>
-					<Text>Cases per 100K</Text>
-					<Text>
+			<Flex justify="space-around" my="1em">
+				<Stat textAlign="center">
+					<StatLabel>Cases per 100K</StatLabel>
+					<StatNumber>
 						{casesPer100K.value.toLocaleString("en-US", {
 							maximumFractionDigits: 0,
 						})}
-					</Text>
-					<Text>{formatDate(casesPer100K.date)}</Text>
-				</Box>
+					</StatNumber>
+					<StatHelpText>{formatDate(casesPer100K.date)}</StatHelpText>
+				</Stat>
 				{testPositivityRate != null && (
-					<Box>
-						<Text>Test positive rate</Text>
-						<Text>
+					<Stat textAlign="center">
+						<StatLabel>Test positive rate</StatLabel>
+						<StatNumber>
 							{testPositivityRate.value.toLocaleString("en-US", {
 								style: "percent",
 								maximumFractionDigits: 1,
 							})}
-						</Text>
-						<Text>{formatDate(testPositivityRate.date)}</Text>
-					</Box>
+						</StatNumber>
+						<StatHelpText>{formatDate(testPositivityRate.date)}</StatHelpText>
+					</Stat>
 				)}
 			</Flex>
 			<Advice color={color} />
