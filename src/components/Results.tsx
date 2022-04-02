@@ -19,7 +19,6 @@ export type DataPoint = {
 };
 
 export interface ResultsProps {
-	state: string;
 	county: string;
 	casesPer100K: DataPoint;
 	testPositivityRate?: DataPoint;
@@ -33,7 +32,6 @@ const formatDate = (date: Date) =>
 	});
 
 export const Results = ({
-	state,
 	county,
 	casesPer100K,
 	testPositivityRate,
@@ -46,7 +44,7 @@ export const Results = ({
 	return (
 		<Box>
 			<Heading size="xl" textAlign="center">
-				{county}, {state}
+				{county}
 				<Badge ml="0.5em" fontSize="xl" variant="solid" colorScheme={color}>
 					{color}
 				</Badge>
@@ -59,7 +57,11 @@ export const Results = ({
 							maximumFractionDigits: 0,
 						})}
 					</StatNumber>
-					<StatHelpText>{formatDate(casesPer100K.date)}</StatHelpText>
+					<StatHelpText>
+						{formatDate(casesPer100K.date)}
+						<br />
+						7-day average
+					</StatHelpText>
 				</Stat>
 				{testPositivityRate != null && (
 					<Stat textAlign="center">
@@ -70,7 +72,11 @@ export const Results = ({
 								maximumFractionDigits: 1,
 							})}
 						</StatNumber>
-						<StatHelpText>{formatDate(testPositivityRate.date)}</StatHelpText>
+						<StatHelpText>
+							{formatDate(testPositivityRate.date)}
+							<br />
+							7-day average
+						</StatHelpText>
 					</Stat>
 				)}
 			</Flex>

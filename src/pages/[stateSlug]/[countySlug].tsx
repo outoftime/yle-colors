@@ -4,6 +4,8 @@ import { useCaseRate } from "../../hooks/api-data";
 import { DataPoint, Results } from "../../components/Results";
 import { useTestData } from "../../hooks/useTestData";
 import { parseISO } from "date-fns";
+import { countyRoute, homeRoute, stateRoute } from "../../lib/routes";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 
 const County: NextPage = () => {
 	const router = useRouter();
@@ -54,12 +56,20 @@ const County: NextPage = () => {
 			  };
 
 	return (
-		<Results
-			state={state}
-			county={county}
-			casesPer100K={casesPer100K}
-			testPositivityRate={testPositivityRate}
-		/>
+		<>
+			<Breadcrumbs
+				items={[
+					{ label: "Home", href: homeRoute() },
+					{ label: state, href: stateRoute({ state }) },
+					{ label: county },
+				]}
+			/>
+			<Results
+				county={county}
+				casesPer100K={casesPer100K}
+				testPositivityRate={testPositivityRate}
+			/>
+		</>
 	);
 };
 

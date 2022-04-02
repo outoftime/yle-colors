@@ -1,7 +1,9 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 import { NavigationList } from "../components/NavigationList";
 import { useCounties } from "../hooks/api-data";
+import { countyRoute, homeRoute, stateRoute } from "../lib/routes";
 
 const State: NextPage = () => {
 	const router = useRouter();
@@ -21,12 +23,17 @@ const State: NextPage = () => {
 	}
 
 	return (
-		<NavigationList
-			items={counties!.map((county) => ({
-				label: county,
-				path: `/${stateSlug}/${county.replace(" ", "-")}`,
-			}))}
-		/>
+		<>
+			<Breadcrumbs
+				items={[{ label: "Home", href: homeRoute() }, { label: state }]}
+			/>
+			<NavigationList
+				items={counties!.map((county) => ({
+					label: county,
+					path: countyRoute({ state, county }),
+				}))}
+			/>
+		</>
 	);
 };
 

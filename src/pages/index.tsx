@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 import { NavigationList } from "../components/NavigationList";
 import { useStates } from "../hooks/api-data";
 
@@ -13,12 +14,15 @@ const Home: NextPage = () => {
 	}
 
 	return (
-		<NavigationList
-			items={states!.map((state) => ({
-				label: state,
-				path: `/${state.replace(" ", "-")}`,
-			}))}
-		/>
+		<>
+			<Breadcrumbs items={[{ label: "Home" }]} />
+			<NavigationList
+				items={states!.map((state) => ({
+					label: state,
+					path: `/${state.replace(" ", "-")}`,
+				}))}
+			/>
+		</>
 	);
 };
 
