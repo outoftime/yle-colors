@@ -12,7 +12,14 @@ export interface BreadcrumbsProps {
 }
 
 export const Breadcrumbs = ({ items }: BreadcrumbsProps) => (
-	<Breadcrumb separator={<ChevronRightIcon color="gray.500" />}>
+	<Breadcrumb
+		padding="1"
+		my="2"
+		borderBottomWidth="1px"
+		borderBottomColor="gray.100"
+		borderColor="gray.100"
+		separator={<ChevronRightIcon color="gray.500" />}
+	>
 		{items.map(({ label, href }) =>
 			href == null ? (
 				<BreadcrumbItem key={href} isCurrentPage>

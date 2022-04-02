@@ -43,14 +43,14 @@ export const Results = ({
 
 	return (
 		<Box>
-			<Heading size="xl" textAlign="center">
+			<Heading>
 				{county}
 				<Badge ml="0.5em" fontSize="xl" variant="solid" colorScheme={color}>
 					{color}
 				</Badge>
 			</Heading>
-			<Flex justify="space-around" my="1em">
-				<Stat textAlign="center">
+			<Flex my="1em" justifyItems="start">
+				<Stat flex="0 1 auto" mr="2em">
 					<StatLabel>Cases per 100K</StatLabel>
 					<StatNumber>
 						{casesPer100K.value.toLocaleString("en-US", {
@@ -64,7 +64,7 @@ export const Results = ({
 					</StatHelpText>
 				</Stat>
 				{testPositivityRate != null && (
-					<Stat textAlign="center">
+					<Stat flex="0 1 auto">
 						<StatLabel>Test positive rate</StatLabel>
 						<StatNumber>
 							{testPositivityRate.value.toLocaleString("en-US", {

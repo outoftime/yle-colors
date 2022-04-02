@@ -4,6 +4,7 @@ import { Breadcrumbs } from "../components/Breadcrumbs";
 import { NavigationList } from "../components/NavigationList";
 import { useCounties } from "../hooks/api-data";
 import { countyRoute, homeRoute, stateRoute } from "../lib/routes";
+import { Heading, Text } from "@chakra-ui/react";
 
 const State: NextPage = () => {
 	const router = useRouter();
@@ -27,6 +28,7 @@ const State: NextPage = () => {
 			<Breadcrumbs
 				items={[{ label: "Home", href: homeRoute() }, { label: state }]}
 			/>
+			<Text>Choose your locality in {state}:</Text>
 			<NavigationList
 				items={counties!.map((county) => ({
 					label: county,
