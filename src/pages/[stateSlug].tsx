@@ -5,6 +5,7 @@ import { NavigationList } from "../components/NavigationList";
 import { useCounties } from "../hooks/api-data";
 import { countyRoute, homeRoute, stateRoute } from "../lib/routes";
 import { Heading, Text } from "@chakra-ui/react";
+import Head from "next/head";
 
 const State: NextPage = () => {
 	const router = useRouter();
@@ -25,6 +26,9 @@ const State: NextPage = () => {
 
 	return (
 		<>
+			<Head>
+				<title>Your Local COVID Precautions | {state}</title>
+			</Head>
 			<Breadcrumbs
 				items={[{ label: "Home", href: homeRoute() }, { label: state }]}
 			/>

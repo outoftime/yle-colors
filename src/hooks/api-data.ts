@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 
-const API_ROOT = "https://yle-colors-data.herokuapp.com";
+const API_ROOT = "https://api.yourlocalcovidprecautions.com";
 
 type CaseRateResult = {
 	"7_day_cases_per_100k": number;

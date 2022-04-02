@@ -20,9 +20,15 @@ export const Intro = () => {
 				>
 					Riding the Waves
 				</UnderlinedLink>{" "}
-				post on the Your Local Epidemiologist Substack. This site isn’t
-				affiliated with Your Local Epidemiologist, but YLE’s work is used with
-				permission.
+				post on the{" "}
+				<UnderlinedLink
+					isExternal
+					href="https://yourlocalepidemiologist.substack.com"
+				>
+					Your Local Epidemiologist
+				</UnderlinedLink>{" "}
+				Substack. This site isn’t affiliated with Your Local Epidemiologist, but
+				YLE’s work is used with permission.
 			</Text>
 			<Text>
 				Data is derived from the{" "}

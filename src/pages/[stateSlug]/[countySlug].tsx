@@ -6,6 +6,7 @@ import { useTestData } from "../../hooks/useTestData";
 import { parseISO } from "date-fns";
 import { countyRoute, homeRoute, stateRoute } from "../../lib/routes";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
+import Head from "next/head";
 
 const County: NextPage = () => {
 	const router = useRouter();
@@ -57,6 +58,11 @@ const County: NextPage = () => {
 
 	return (
 		<>
+			<Head>
+				<title>
+					Your Local COVID Precautions | {county}, {state}
+				</title>
+			</Head>
 			<Breadcrumbs
 				items={[
 					{ label: "Home", href: homeRoute() },

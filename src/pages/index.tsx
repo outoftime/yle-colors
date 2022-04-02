@@ -4,6 +4,7 @@ import { Intro } from "../components/Intro";
 import { NavigationList } from "../components/NavigationList";
 import { useStates } from "../hooks/api-data";
 import { Divider, Text } from "@chakra-ui/react";
+import Head from "next/head";
 
 const Home: NextPage = () => {
 	const { states: states, isLoading, isError, error } = useStates();
@@ -17,6 +18,9 @@ const Home: NextPage = () => {
 
 	return (
 		<>
+			<Head>
+				<title>Your Local COVID Precautions</title>
+			</Head>
 			<Breadcrumbs items={[{ label: "Home" }]} />
 			<Intro />
 			<Divider my="5" />
