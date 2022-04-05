@@ -7,11 +7,15 @@ import { parseISO } from "date-fns";
 import { countyRoute, homeRoute, stateRoute } from "../../lib/routes";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import Head from "next/head";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
-const County: NextPage = () => {
-	const router = useRouter();
-	const { stateSlug, countySlug } = router.query;
-
+const CountyPage = ({
+	stateSlug,
+	countySlug,
+}: {
+	stateSlug: string;
+	countySlug: string;
+}) => {
 	const state = `${stateSlug}`.replace("-", " ");
 	const county = `${countySlug}`.replace("-", " ");
 
@@ -79,4 +83,15 @@ const County: NextPage = () => {
 	);
 };
 
-export default County;
+const RoutedCountyPage: NextPage = () => {
+	const router = useRouter();
+	const { stateSlug, countySlug } = router.query;
+
+	if (typeof stateSlug != "string" || typeof countySlug != "string") {
+		return <LoadingSpinner />;
+	}
+
+	return <CountyPage stateSlug={stateSlug} countySlug={countySlug} />;
+};
+
+export default RoutedCountyPage;

@@ -1,22 +1,23 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { Text } from "@chakra-ui/react";
 import { Breadcrumbs } from "../components/Breadcrumbs";
-import { NavigationList } from "../components/NavigationList";
-import { useCounties } from "../hooks/api-data";
-import { countyRoute, homeRoute, stateRoute } from "../lib/routes";
-import { Heading, Text } from "@chakra-ui/react";
+import { countyRoute, homeRoute } from "../lib/routes";
 import Head from "next/head";
+import { LoadingSpinner } from "../components/LoadingSpinner";
+import { useCounties } from "../hooks/api-data";
+import { NavigationList } from "../components/NavigationList";
 
-const State: NextPage = () => {
-	const router = useRouter();
-	const { stateSlug } = router.query;
+interface StatePageProps {
+	stateSlug: string;
+}
 
+const StatePage = ({ stateSlug }: StatePageProps) => {
 	const state = `${stateSlug}`.replace("-", " ");
-
 	const { counties, isLoading, isError, error } = useCounties(state);
 
 	if (isLoading) {
-		return <div>Loading…</div>;
+		return <LoadingSpinner />;
 	}
 
 	if (isError) {
@@ -43,4 +44,15 @@ const State: NextPage = () => {
 	);
 };
 
-export default State;
+const RoutedStatePage: NextPage = () => {
+	const router = useRouter();
+	const { stateSlug } = router.query;
+
+	if (typeof stateSlug != "string") {
+		return <LoadingSpinner />;
+	}
+
+	return <StatePage stateSlug={`${stateSlug}`} />;
+};
+
+export default RoutedStatePage;
