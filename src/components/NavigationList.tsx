@@ -12,7 +12,7 @@ export interface NavigationListProps {
 export const NavigationList = ({ items }: NavigationListProps) => (
 	<List>
 		{items!.map(({ label, path }) => (
-			<ListItem key="state" my="5">
+			<ListItem key={path} my="5">
 				<NextLink href={path} passHref>
 					<Link fontSize="xl">{label}</Link>
 				</NextLink>

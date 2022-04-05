@@ -22,11 +22,11 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => (
 	>
 		{items.map(({ label, href }) =>
 			href == null ? (
-				<BreadcrumbItem key={href} isCurrentPage>
+				<BreadcrumbItem key={label} isCurrentPage>
 					<BreadcrumbLink isCurrentPage>{label}</BreadcrumbLink>
 				</BreadcrumbItem>
 			) : (
-				<BreadcrumbItem key={href}>
+				<BreadcrumbItem key={label}>
 					<BreadcrumbLink href={href} as={Link}>
 						{label}
 					</BreadcrumbLink>
