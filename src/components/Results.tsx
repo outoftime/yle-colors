@@ -60,7 +60,7 @@ export const Results = ({
 					<StatHelpText>
 						{formatDate(casesPer100K.date)}
 						<br />
-						7-day average
+						7-day total
 					</StatHelpText>
 				</Stat>
 				{testPositivityRate != null && (

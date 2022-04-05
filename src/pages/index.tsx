@@ -3,7 +3,7 @@ import { Breadcrumbs } from "../components/Breadcrumbs";
 import { Intro } from "../components/Intro";
 import { NavigationList } from "../components/NavigationList";
 import { useStates } from "../hooks/api-data";
-import { Divider, Text } from "@chakra-ui/react";
+import { Divider, Heading, Text } from "@chakra-ui/react";
 import Head from "next/head";
 
 const Home: NextPage = () => {
@@ -22,6 +22,9 @@ const Home: NextPage = () => {
 				<title>Your Local COVID Precautions</title>
 			</Head>
 			<Breadcrumbs items={[{ label: "Home" }]} />
+			<Heading textAlign="center" size="lg">
+				Your Local Covid Precautions
+			</Heading>
 			<Intro />
 			<Divider my="5" />
 			<Text>Choose your state to get started:</Text>

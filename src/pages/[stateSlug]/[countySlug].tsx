@@ -8,6 +8,8 @@ import { countyRoute, homeRoute, stateRoute } from "../../lib/routes";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import Head from "next/head";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { Intro } from "../../components/Intro";
+import { Divider } from "@chakra-ui/react";
 
 const CountyPage = ({
 	stateSlug,
@@ -79,6 +81,8 @@ const CountyPage = ({
 				casesPer100K={casesPer100K}
 				testPositivityRate={testPositivityRate}
 			/>
+			<Divider my="5" />
+			<Intro />
 		</>
 	);
 };
