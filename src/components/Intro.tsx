@@ -47,7 +47,10 @@ export const Intro = () => {
 				</UnderlinedLink>
 				, and may produce a very different color code for a given locality. YLE
 				has an informative post,{" "}
-				<UnderlinedLink isExternal href="New CDC (mask) guidance: My two cents">
+				<UnderlinedLink
+					isExternal
+					href="https://yourlocalepidemiologist.substack.com/p/new-cdc-mask-guidance-my-two-cents?s=r"
+				>
 					New CDC (mask) guidance: My two cents
 				</UnderlinedLink>
 				, which goes into detail about the CDC’s framework.
