@@ -7,13 +7,9 @@ import { Divider, Heading, Text } from "@chakra-ui/react";
 import Head from "next/head";
 
 const Home: NextPage = () => {
-	const { states: states, isLoading, isError, error } = useStates();
+	const { states: states, isLoading } = useStates();
 	if (isLoading) {
 		return <div>Loading…</div>;
-	}
-	if (isError) {
-		console.error(error);
-		return <div>Error!</div>;
 	}
 
 	return (

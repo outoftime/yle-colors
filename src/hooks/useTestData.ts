@@ -56,7 +56,7 @@ const aggregateTestData = (rawData: NewYorkCovidTestingResponse[]) => {
 };
 
 export const useTestData = ({ enabled }: { enabled: boolean }) => {
-	const { data, isLoading, error } = useQuery(
+	const { data, isLoading } = useQuery(
 		"NewYorkCovidTesting",
 		async (): Promise<NewYorkCovidTestingResponse[]> => {
 			const response = await fetch(
@@ -78,5 +78,5 @@ export const useTestData = ({ enabled }: { enabled: boolean }) => {
 		[data],
 	);
 
-	return { data: aggregateData, isLoading, error };
+	return { data: aggregateData, isLoading };
 };

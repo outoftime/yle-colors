@@ -14,15 +14,10 @@ interface StatePageProps {
 
 const StatePage = ({ stateSlug }: StatePageProps) => {
 	const state = `${stateSlug}`.replace("-", " ");
-	const { counties, isLoading, isError, error } = useCounties(state);
+	const { counties, isLoading } = useCounties(state);
 
 	if (isLoading) {
 		return <LoadingSpinner />;
-	}
-
-	if (isError) {
-		console.error(error);
-		return <div>Error!</div>;
 	}
 
 	return (

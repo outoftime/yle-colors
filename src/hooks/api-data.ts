@@ -8,41 +8,29 @@ type CaseRateResult = {
 };
 
 export const useStates = () => {
-	const {
-		data: states,
-		isLoading,
-		isError,
-		error,
-	} = useQuery<string[]>(["states"], async () =>
+	const { data: states, isLoading } = useQuery<string[]>(["states"], async () =>
 		(await fetch(`${API_ROOT}/states`)).json(),
 	);
-	return { states, isLoading, isError, error };
+	return { states, isLoading };
 };
 
 export const useCounties = (state: string) => {
-	const {
-		data: counties,
-		isLoading,
-		isError,
-		error,
-	} = useQuery<string[]>(["counties", state], async () =>
-		(await fetch(`${API_ROOT}/states/${state}/counties`)).json(),
+	const { data: counties, isLoading } = useQuery<string[]>(
+		["counties", state],
+		async () => (await fetch(`${API_ROOT}/states/${state}/counties`)).json(),
 	);
-	return { counties, isLoading, isError, error };
+	return { counties, isLoading };
 };
 
 export const useCaseRate = (state: string, county: string) => {
-	const {
-		data: caseRate,
-		isLoading,
-		isError,
-		error,
-	} = useQuery<CaseRateResult>(["caseRate", state, county], async () =>
-		(
-			await fetch(
-				`${API_ROOT}/states/${state}/counties/${county}/7_day_cases_per_100k`,
-			)
-		).json(),
+	const { data: caseRate, isLoading } = useQuery<CaseRateResult>(
+		["caseRate", state, county],
+		async () =>
+			(
+				await fetch(
+					`${API_ROOT}/states/${state}/counties/${county}/7_day_cases_per_100k`,
+				)
+			).json(),
 	);
-	return { caseRate, isLoading, isError, error };
+	return { caseRate, isLoading };
 };

@@ -21,27 +21,15 @@ const CountyPage = ({
 	const state = `${stateSlug}`.replace("-", " ");
 	const county = `${countySlug}`.replace("-", " ");
 
-	const {
-		caseRate,
-		isLoading: isCaseRateLoading,
-		error: caseRateError,
-	} = useCaseRate(state, county);
+	const { caseRate, isLoading: isCaseRateLoading } = useCaseRate(state, county);
 
 	// FIXME this is a temporary holdover from my first draft of this project
 	// which only pulled data from the NY state API. This data should be cached
 	// and served by the app’s API, and it should be easy to add other states.
 	const isTestDataAvailable = state === "New York";
-	const {
-		data: testResults,
-		isLoading: isTestResultsLoading,
-		error: testResultsError,
-	} = useTestData({ enabled: isTestDataAvailable });
-
-	const error = caseRateError ?? testResultsError;
-
-	if (error != null) {
-		throw error;
-	}
+	const { data: testResults, isLoading: isTestResultsLoading } = useTestData({
+		enabled: isTestDataAvailable,
+	});
 
 	if (isCaseRateLoading || isTestResultsLoading || caseRate == null) {
 		return <div>Loading…</div>;
