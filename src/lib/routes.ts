@@ -1,14 +1,22 @@
-const toSegment = (str: string) => str.replace(" ", "-");
-
 export const homeRoute = () => "/";
 
-export const stateRoute = ({ state }: { state: string }) =>
-	`/${toSegment(state)}`;
+const stateSlugBrand: unique symbol = Symbol();
+export type StateSlug = string & {
+	[stateSlugBrand]: never;
+};
+
+const countySlugBrand: unique symbol = Symbol();
+export type CountySlug = string & {
+	[countySlugBrand]: never;
+};
+
+export const stateRoute = ({ stateSlug }: { stateSlug: StateSlug }) =>
+	`/us/${stateSlug}`;
 
 export const countyRoute = ({
-	state,
-	county,
+	stateSlug,
+	countySlug,
 }: {
-	state: string;
-	county: string;
-}) => `/${toSegment(state)}/${toSegment(county)}`;
+	stateSlug: StateSlug;
+	countySlug: CountySlug;
+}) => `/us/${stateSlug}/${countySlug}`;

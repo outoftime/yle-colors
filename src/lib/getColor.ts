@@ -1,24 +1,24 @@
 export type Color = "red" | "orange" | "yellow" | "blue";
 
 export const getColor = (
-	casesPer100K: number,
-	testPositivityRate: number | undefined,
+	weeklyNewCasesPer100k: number | undefined,
+	testPositivityRatio: number | undefined,
 ): Color => {
 	if (
-		casesPer100K >= 100 ||
-		(testPositivityRate != null && testPositivityRate > 0.1)
+		(weeklyNewCasesPer100k != null && weeklyNewCasesPer100k >= 100) ||
+		(testPositivityRatio != null && testPositivityRatio > 0.1)
 	) {
 		return "red";
 	}
 	if (
-		casesPer100K >= 50 ||
-		(testPositivityRate != null && testPositivityRate >= 0.08)
+		(weeklyNewCasesPer100k != null && weeklyNewCasesPer100k >= 50) ||
+		(testPositivityRatio != null && testPositivityRatio >= 0.08)
 	) {
 		return "orange";
 	}
 	if (
-		casesPer100K >= 10 ||
-		(testPositivityRate != null && testPositivityRate >= 0.05)
+		(weeklyNewCasesPer100k != null && weeklyNewCasesPer100k >= 10) ||
+		(testPositivityRatio != null && testPositivityRatio >= 0.05)
 	) {
 		return "yellow";
 	}

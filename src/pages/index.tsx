@@ -5,12 +5,15 @@ import { NavigationList } from "../components/NavigationList";
 import { useStates } from "../hooks/api-data";
 import { Divider, Heading, Text } from "@chakra-ui/react";
 import Head from "next/head";
+import { stateRoute } from "../lib/routes";
 
 const Home: NextPage = () => {
-	const { states: states, isLoading } = useStates();
-	if (isLoading) {
+	const { data, status } = useStates();
+	if (status !== "success") {
 		return <div>Loading…</div>;
 	}
+
+	const { states } = data;
 
 	return (
 		<>
@@ -25,9 +28,9 @@ const Home: NextPage = () => {
 			<Divider my="5" />
 			<Text>Choose your state to get started:</Text>
 			<NavigationList
-				items={states!.map((state) => ({
-					label: state,
-					path: `/${state.replace(" ", "-")}`,
+				items={states.map(({ name, slug }) => ({
+					label: name,
+					path: stateRoute({ stateSlug: slug }),
 				}))}
 			/>
 		</>

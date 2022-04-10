@@ -13,15 +13,11 @@ import { useMemo } from "react";
 import { Advice } from "./Advice";
 import { getColor } from "../lib/getColor";
 
-export type DataPoint = {
-	value: number;
-	date: Date;
-};
-
 export interface ResultsProps {
+	date: Date;
 	county: string;
-	casesPer100K: DataPoint;
-	testPositivityRate?: DataPoint;
+	weeklyNewCasesPer100k?: number;
+	testPositivityRatio?: number;
 }
 
 const formatDate = (date: Date) =>
@@ -32,13 +28,14 @@ const formatDate = (date: Date) =>
 	});
 
 export const Results = ({
+	date,
 	county,
-	casesPer100K,
-	testPositivityRate,
+	weeklyNewCasesPer100k,
+	testPositivityRatio,
 }: ResultsProps) => {
 	const color = useMemo(
-		() => getColor(casesPer100K.value, testPositivityRate?.value),
-		[testPositivityRate, casesPer100K],
+		() => getColor(weeklyNewCasesPer100k, testPositivityRatio),
+		[testPositivityRatio, weeklyNewCasesPer100k],
 	);
 
 	return (
@@ -50,30 +47,32 @@ export const Results = ({
 				</Badge>
 			</Heading>
 			<Flex my="1em" justifyItems="start">
-				<Stat flex="0 1 auto" mr="2em">
-					<StatLabel>Cases per 100K</StatLabel>
-					<StatNumber>
-						{casesPer100K.value.toLocaleString("en-US", {
-							maximumFractionDigits: 0,
-						})}
-					</StatNumber>
-					<StatHelpText>
-						{formatDate(casesPer100K.date)}
-						<br />
-						7-day total
-					</StatHelpText>
-				</Stat>
-				{testPositivityRate != null && (
-					<Stat flex="0 1 auto">
-						<StatLabel>Test positive rate</StatLabel>
+				{weeklyNewCasesPer100k != null && (
+					<Stat flex="0 1 auto" mr="2em">
+						<StatLabel>Cases per 100K</StatLabel>
 						<StatNumber>
-							{testPositivityRate.value.toLocaleString("en-US", {
+							{weeklyNewCasesPer100k.toLocaleString("en-US", {
+								maximumFractionDigits: 0,
+							})}
+						</StatNumber>
+						<StatHelpText>
+							{formatDate(date)}
+							<br />
+							7-day total
+						</StatHelpText>
+					</Stat>
+				)}
+				{testPositivityRatio != null && (
+					<Stat flex="0 1 auto">
+						<StatLabel>Test positivity rate</StatLabel>
+						<StatNumber>
+							{testPositivityRatio.toLocaleString("en-US", {
 								style: "percent",
 								maximumFractionDigits: 1,
 							})}
 						</StatNumber>
 						<StatHelpText>
-							{formatDate(testPositivityRate.date)}
+							{formatDate(date)}
 							<br />
 							7-day average
 						</StatHelpText>

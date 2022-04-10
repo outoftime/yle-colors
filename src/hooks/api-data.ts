@@ -1,36 +1,78 @@
+import { parseISO } from "date-fns";
 import { useQuery } from "react-query";
+import type { CountySlug, StateSlug } from "../lib/routes";
 
-const API_ROOT = "https://api.yourlocalcovidprecautions.com";
+const API_ROOT = "https://api.yourlocalcovidprecautions.com/countries/us";
 
-type CaseRateResult = {
-	"7_day_cases_per_100k": number;
-	date: string;
+type StatesResult = {
+	states: {
+		name: string;
+		slug: StateSlug;
+	}[];
 };
 
-export const useStates = () => {
-	const { data: states, isLoading } = useQuery<string[]>(["states"], async () =>
+type CountiesResult = {
+	state: { name: string };
+	counties: {
+		name: string;
+		slug: CountySlug;
+	}[];
+};
+
+type CountyMetricsResult = {
+	state: { name: string };
+	county: { name: string };
+	metrics: {
+		date: string;
+		weekly_new_cases_per_100k: number;
+		test_positivity_ratio: number;
+		vaccinations_completed_ratio: number;
+	};
+};
+
+type TransformedCountyMetricsResult = {
+	state: { name: string };
+	county: { name: string };
+	metrics: {
+		date: Date;
+		weeklyNewCasesPer100k: number;
+		testPositivityRatio: number;
+		vaccinationsCompletedRatio: number;
+	};
+};
+
+export const useStates = () =>
+	useQuery<StatesResult>(["states"], async () =>
 		(await fetch(`${API_ROOT}/states`)).json(),
 	);
-	return { states, isLoading };
-};
 
-export const useCounties = (state: string) => {
-	const { data: counties, isLoading } = useQuery<string[]>(
-		["counties", state],
-		async () => (await fetch(`${API_ROOT}/states/${state}/counties`)).json(),
+export const useCounties = (stateSlug: StateSlug) =>
+	useQuery<CountiesResult>(["counties", stateSlug], async () =>
+		(await fetch(`${API_ROOT}/states/${stateSlug}/counties`)).json(),
 	);
-	return { counties, isLoading };
-};
 
-export const useCaseRate = (state: string, county: string) => {
-	const { data: caseRate, isLoading } = useQuery<CaseRateResult>(
-		["caseRate", state, county],
+export const useCountyMetrics = (
+	stateSlug: StateSlug,
+	countySlug: CountySlug,
+) =>
+	useQuery<CountyMetricsResult, unknown, TransformedCountyMetricsResult>(
+		["countyMetrics", stateSlug, countySlug],
 		async () =>
 			(
 				await fetch(
-					`${API_ROOT}/states/${state}/counties/${county}/7_day_cases_per_100k`,
+					`${API_ROOT}/states/${stateSlug}/counties/${countySlug}/metrics`,
 				)
 			).json(),
+		{
+			select: ({ state, county, metrics }) => ({
+				state,
+				county,
+				metrics: {
+					date: new Date(parseISO(metrics.date)),
+					weeklyNewCasesPer100k: metrics.weekly_new_cases_per_100k,
+					testPositivityRatio: metrics.test_positivity_ratio,
+					vaccinationsCompletedRatio: metrics.vaccinations_completed_ratio,
+				},
+			}),
+		},
 	);
-	return { caseRate, isLoading };
-};
