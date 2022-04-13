@@ -3,6 +3,7 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { datadogRum } from "@datadog/browser-rum";
+import Head from "next/head";
 
 import { ErrorBoundary } from "../components/ErrorBoundary";
 
@@ -27,6 +28,19 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
 		<QueryClientProvider client={queryClient}>
 			<ChakraProvider>
 				<ErrorBoundary>
+					<Head>
+						<meta property="og:title" content="Your Local COVID Precautions" />
+						<meta
+							property="og:url"
+							content="https://yourlocalcovidprecautions.com"
+						/>
+						<meta property="og:type" content="website" />
+						<meta
+							property="og:description"
+							content="A tool to help you evaluate the current COVID risk in your
+				locality and take precautions appropriate to the case rate."
+						/>
+					</Head>
 					<Box width="60ch" maxWidth="90vw" mx="auto" my="1em">
 						<Component {...pageProps} />
 					</Box>
