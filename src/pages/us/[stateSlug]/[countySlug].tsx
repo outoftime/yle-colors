@@ -26,7 +26,12 @@ const CountyPage = ({
 	const {
 		state: { name: state },
 		county: { name: county },
-		metrics: { date, weeklyNewCasesPer100k, testPositivityRatio },
+		metrics: {
+			date,
+			weeklyNewCasesPer100k,
+			testPositivityRatio,
+			vaccinationsCompletedRatio,
+		},
 	} = data;
 
 	return (
@@ -48,6 +53,7 @@ const CountyPage = ({
 				county={county}
 				weeklyNewCasesPer100k={weeklyNewCasesPer100k}
 				testPositivityRatio={testPositivityRatio}
+				vaccinationsCompletedRatio={vaccinationsCompletedRatio}
 			/>
 			<Divider my="5" />
 			<Intro />

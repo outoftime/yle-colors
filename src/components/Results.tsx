@@ -18,6 +18,7 @@ export interface ResultsProps {
 	county: string;
 	weeklyNewCasesPer100k?: number;
 	testPositivityRatio?: number;
+	vaccinationsCompletedRatio?: number;
 }
 
 const formatDate = (date: Date) =>
@@ -32,10 +33,16 @@ export const Results = ({
 	county,
 	weeklyNewCasesPer100k,
 	testPositivityRatio,
+	vaccinationsCompletedRatio,
 }: ResultsProps) => {
 	const color = useMemo(
-		() => getColor(weeklyNewCasesPer100k, testPositivityRatio),
-		[testPositivityRatio, weeklyNewCasesPer100k],
+		() =>
+			getColor({
+				weeklyNewCasesPer100k,
+				testPositivityRatio,
+				vaccinationsCompletedRatio,
+			}),
+		[testPositivityRatio, weeklyNewCasesPer100k, vaccinationsCompletedRatio],
 	);
 
 	return (
@@ -46,9 +53,9 @@ export const Results = ({
 					{color}
 				</Badge>
 			</Heading>
-			<Flex my="1em" justifyItems="start">
+			<Flex my="1em" justifyItems="start" wrap="wrap">
 				{weeklyNewCasesPer100k != null && (
-					<Stat flex="0 1 auto" mr="2em">
+					<Stat flex="0 0 auto" mr="2em">
 						<StatLabel>Cases per 100K</StatLabel>
 						<StatNumber>
 							{weeklyNewCasesPer100k.toLocaleString("en-US", {
@@ -63,7 +70,7 @@ export const Results = ({
 					</Stat>
 				)}
 				{testPositivityRatio != null && (
-					<Stat flex="0 1 auto">
+					<Stat flex="0 0 auto" mr="2em">
 						<StatLabel>Test positivity rate</StatLabel>
 						<StatNumber>
 							{testPositivityRatio.toLocaleString("en-US", {
@@ -75,6 +82,22 @@ export const Results = ({
 							{formatDate(date)}
 							<br />
 							7-day average
+						</StatHelpText>
+					</Stat>
+				)}
+				{vaccinationsCompletedRatio != null && (
+					<Stat flex="0 0 auto">
+						<StatLabel>Vaccination rate</StatLabel>
+						<StatNumber>
+							{vaccinationsCompletedRatio.toLocaleString("en-US", {
+								style: "percent",
+								maximumFractionDigits: 0,
+							})}
+						</StatNumber>
+						<StatHelpText>
+							{formatDate(date)}
+							<br />
+							Primary series
 						</StatHelpText>
 					</Stat>
 				)}
