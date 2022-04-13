@@ -20,7 +20,7 @@ const CountyPage = ({
 	const { data, status } = useCountyMetrics(stateSlug, countySlug);
 
 	if (status !== "success") {
-		return <div>Loading…</div>;
+		return <LoadingSpinner />;
 	}
 
 	const {

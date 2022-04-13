@@ -6,11 +6,12 @@ import { useStates } from "../hooks/api-data";
 import { Divider, Heading, Text } from "@chakra-ui/react";
 import Head from "next/head";
 import { stateRoute } from "../lib/routes";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 
 const Home: NextPage = () => {
 	const { data, status } = useStates();
 	if (status !== "success") {
-		return <div>Loading…</div>;
+		return <LoadingSpinner />;
 	}
 
 	const { states } = data;
