@@ -24,18 +24,15 @@ export const Intro = () => {
 				>
 					Your Local Epidemiologist
 				</UnderlinedLink>{" "}
-				Substack. This site isn’t affiliated with Your Local Epidemiologist, but
-				YLE’s work is used with permission.
+				newsletter. This site isn’t affiliated with Your Local Epidemiologist,
+				but YLE’s work is used with permission.
 			</Text>
 			<Text my="0.5em">
-				Data is derived from the{" "}
-				<UnderlinedLink
-					isExternal
-					href="https://www.nytimes.com/interactive/2021/us/covid-cases.html"
-				>
-					New York Times
-				</UnderlinedLink>{" "}
-				and, in some cases, state health departments.
+				The data comes from{" "}
+				<UnderlinedLink isExternal href="https://covidactnow.org/">
+					COVID Act Now
+				</UnderlinedLink>
+				.
 			</Text>
 			<Text my="0.5em">
 				This tool does not use the{" "}
