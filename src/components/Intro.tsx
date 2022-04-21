@@ -52,6 +52,9 @@ export const Intro = () => {
 				</UnderlinedLink>
 				, which goes into detail about the CDC’s framework.
 			</Text>
+			<Text>
+				Your Local Covid Precautions is open-source software; you can find the source code <UnderlinedLink isExternal href="https://github.com/outoftime/yle-colors">on GitHub</UnderlinedLink>.
+			</Text>
 		</>
 	);
 };
